@@ -1,15 +1,10 @@
 package com.soapexample.consumer;
 
-import com.soapexample.generated.GetObjectRequest;
-import com.soapexample.generated.GetObjectResponse;
-import com.soapexample.generated.GetRandomIntRequest;
-import com.soapexample.generated.GetRandomIntResponse;
+import com.soapexample.generated.*;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigInteger;
 
 /**
@@ -51,5 +46,40 @@ public class FirstEndpointClient extends WebServiceGatewaySupport {
                 .marshalSendAndReceive("https://localhost:8080/ws", intRequest,
                         new SoapActionCallback("https://localhost:8080/ws"));
         System.out.println("We have got next number: " + intResponse.getRandomInt());
+        System.out.println("------------------------------------------------------------------");
+        DownloadMessageRequest downloadMessageRequest = new DownloadMessageRequest();
+        downloadMessageRequest.setRandomInt(new BigInteger("1"));
+
+        DownloadMessageResponse response3 = (DownloadMessageResponse) getWebServiceTemplate()
+                .marshalSendAndReceive("https://localhost:8080/ws", downloadMessageRequest,
+                        new SoapActionCallback("https://localhost:8080/ws"));
+
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(response3.getDownloadResponse()
+                    .getPayLoad().getMessagePayLoad().getInputStream()));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("gottenFile.csv")));
+
+            String line = reader.readLine();
+            while(line != null) {
+                System.out.println(line);
+                writer.write(line);
+                writer.newLine();
+
+                line = reader.readLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+                writer.close();
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
