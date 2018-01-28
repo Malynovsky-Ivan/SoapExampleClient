@@ -28,7 +28,6 @@ public class FirstEndpointClient extends WebServiceGatewaySupport {
         }
 
         System.setProperty ("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
-        //System.setProperty ("javax.net.ssl.trustStore", "E:\\trust-store.jks");
 
         GetObjectResponse response = (GetObjectResponse) getWebServiceTemplate()
                 .marshalSendAndReceive("https://localhost:8080/ws", request,
