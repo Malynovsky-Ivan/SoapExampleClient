@@ -19,8 +19,8 @@ import java.io.InputStreamReader;
 public class SoapexampleApplication {
 
 	public static void main(String[] args) throws IOException {
-		ApplicationContext ctx = SpringApplication.run(SoapexampleApplication.class, args);
-		DocumentsClient documentsClient = ctx.getBean(DocumentsClient.class);
+		ApplicationContext context = SpringApplication.run(SoapexampleApplication.class, args);
+		DocumentsClient documentsClient = context.getBean(DocumentsClient.class);
 		String searchWord = readSize();
 		int size = searchWord.length();
 		while (size > 0) {
