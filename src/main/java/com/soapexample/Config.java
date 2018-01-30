@@ -1,5 +1,6 @@
 package com.soapexample;
 
+import com.soapexample.consumer.DocumentsClient;
 import com.soapexample.consumer.FirstEndpointClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ public class Config {
         // pom.xml
         marshaller.setPackagesToScan("com.soapexample.generated");
         //marshaller.setSchema(new ClassPathResource("example.xsd"));
+        marshaller.setMtomEnabled(true);
         return marshaller;
     }
 
@@ -33,6 +35,16 @@ public class Config {
         client.setUnmarshaller(marshaller);
 
         return client;
+    }
+
+    @Bean
+    public DocumentsClient documentsClient(Jaxb2Marshaller marshaller) {
+        DocumentsClient documentsClient = new DocumentsClient();
+        documentsClient.setDefaultUri("https://localhost:8080/ws");
+        documentsClient.setMarshaller(marshaller);
+        documentsClient.setUnmarshaller(marshaller);
+
+        return documentsClient;
     }
 
     @Bean
