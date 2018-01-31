@@ -1,7 +1,20 @@
 server:
-  port: 8080
+  port: 9000
+  ssl:
+      key-store-type: PKCS12
+      key-store-password: qwerty
+      key-alias: tomcat
+      key-store: classpath:keystore.p12
+      enabled-protocols: TLSv1.0,TLSv1.1,TLSv1.2
 spring:
   mvc:
     view:
       prefix: /
       suffix: .jsp
+logging:
+  file: soap.log
+  level:
+    com.soapexample: INFO
+  pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
