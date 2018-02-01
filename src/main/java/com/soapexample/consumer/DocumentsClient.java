@@ -18,15 +18,15 @@ public class DocumentsClient extends WebServiceGatewaySupport {
         System.setProperty("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
     }
 
-    public void storeDocument(String searchWord, String filePath) {
+    public void storeDocument(String searchWord, File filePath) {
         System.out.println(filePath);
         Document document = new Document();
         try {
-            document.setContent(new DataHandler(new File("D:/1.txt").toURI().toURL()));
+            document.setContent(new DataHandler(filePath.toURI().toURL()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        document.setName(searchWord);
+        document.setWord(searchWord);
         StoreDocumentRequest request = new StoreDocumentRequest();
         request.setDocument(document);
         StoreDocumentResponse response = (StoreDocumentResponse) getWebServiceTemplate()

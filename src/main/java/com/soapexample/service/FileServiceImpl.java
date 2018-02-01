@@ -14,17 +14,16 @@ public class FileServiceImpl implements FileService {
     private final Logger LGR = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
-    public String saveFile(MultipartFile multipartFile) {
-        String path = System.getProperty("catalina.home") + "/resources/" + multipartFile.getOriginalFilename();
+    public File saveFile(MultipartFile multipartFile) {
+        String path = System.getProperty("catalina.home") + File.separator + multipartFile.getOriginalFilename();
         File file = new File(path);
         try {
-            file.mkdirs();
-            FileUtils.cleanDirectory(new File(System.getProperty("catalina.home") + "/resources/"));
+            //FileUtils.cleanDirectory(new File(System.getProperty("catalina.home") + "/resources/"));
             multipartFile.transferTo(file);
             LGR.info("File saved in: {}", path);
         } catch (IOException e) {
             LGR.error(e.getMessage());
         }
-        return path;
+        return file;
     }
 }

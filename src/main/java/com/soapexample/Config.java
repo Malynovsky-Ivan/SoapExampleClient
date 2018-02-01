@@ -9,8 +9,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
+
+import javax.xml.soap.SOAPException;
 
 /**
  * Created by Ivan on 28.01.2018.
@@ -58,6 +61,18 @@ public class Config {
         videoFileClient.setUnmarshaller(marshaller);
 
         return videoFileClient;
+    }
+
+    @Bean
+    public SaajSoapMessageFactory saajSoapMessageFactory() {
+        SaajSoapMessageFactory factory = null;
+        try {
+            factory = new SaajSoapMessageFactory(javax.xml.soap.MessageFactory.newInstance());
+        } catch (SOAPException e) {
+            e.printStackTrace();
+        }
+
+        return factory;
     }
 
 
