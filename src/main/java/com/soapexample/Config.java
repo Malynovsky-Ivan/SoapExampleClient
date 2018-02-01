@@ -2,6 +2,7 @@ package com.soapexample;
 
 import com.soapexample.consumer.DocumentsClient;
 import com.soapexample.consumer.FirstEndpointClient;
+import com.soapexample.consumer.VideoFileClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -46,6 +47,17 @@ public class Config {
 
         return documentsClient;
     }
+
+    @Bean
+    public VideoFileClient videoFileClient(Jaxb2Marshaller marshaller) {
+        VideoFileClient videoFileClient = new VideoFileClient();
+        videoFileClient.setDefaultUri("https://localhost:8080/ws");
+        videoFileClient.setMarshaller(marshaller);
+        videoFileClient.setUnmarshaller(marshaller);
+
+        return videoFileClient;
+    }
+
 
     @Bean
     public XsdSchema objectsSchema() {
