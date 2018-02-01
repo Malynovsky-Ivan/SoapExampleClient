@@ -31,6 +31,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
         return response.getFileNamesList();
     }
 
+
     public void getVideoFile(String fileName) throws IOException {
         LGR.info("Request to get file: {}", fileName);
         GetFileRequest request = new GetFileRequest();
