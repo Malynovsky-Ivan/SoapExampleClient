@@ -14,22 +14,18 @@ import java.util.Random;
 
 public class DocumentsClient extends WebServiceGatewaySupport {
 
-    private static final String[] AUTHORS = new String[]{"Herbert", "Ernie", "Bibo", "Bert"};
-    private Random random = new Random();
-
-
     public DocumentsClient() {
         System.setProperty("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
     }
 
-    public void storeDocument(String searchWord) {
+    public void storeDocument(String searchWord, String filePath) {
+        System.out.println(filePath);
         Document document = new Document();
         try {
             document.setContent(new DataHandler(new File("D:/1.txt").toURI().toURL()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        document.setAuthor(getAuthor());
         document.setName(searchWord);
         StoreDocumentRequest request = new StoreDocumentRequest();
         request.setDocument(document);
@@ -38,10 +34,4 @@ public class DocumentsClient extends WebServiceGatewaySupport {
         System.out.println();
         System.out.println("There are " + response.getCount() + " such words in the text");
     }
-
-    private String getAuthor() {
-        return AUTHORS[random.nextInt(AUTHORS.length)];
-    }
-
-
 }

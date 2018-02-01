@@ -31,8 +31,11 @@ public class VideoFileClient extends WebServiceGatewaySupport {
         return response.getFileNamesList();
     }
 
-    public void getVideoFile(GetFileRequest request) throws IOException {
-        LGR.info("Request to get file: {}", request.getFileName());
+
+    public void getVideoFile(String fileName) throws IOException {
+        LGR.info("Request to get file: {}", fileName);
+        GetFileRequest request = new GetFileRequest();
+        request.setFileName(fileName);
         GetFileResponse response = (GetFileResponse) getWebServiceTemplate().marshalSendAndReceive(request);
         System.out.println(response);
         BufferedReader reader = new BufferedReader(new InputStreamReader(response.getFile().getInputStream()));

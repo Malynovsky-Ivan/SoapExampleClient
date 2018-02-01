@@ -11,6 +11,10 @@ spring:
     view:
       prefix: /
       suffix: .jsp
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 25MB
 logging:
   file: soap.log
   level:
