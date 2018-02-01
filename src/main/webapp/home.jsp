@@ -20,26 +20,26 @@
     <div>
         <fieldset>
             <legend><h3>Type word you want to find:</h3></legend>
-            <input type="text" id="text" placeholder="Text to search">
+            <input type="text" id="text" placeholder="Text to search" name="searchWord">
             <label for="text" id="nameID">Input word you want to search in file:</label>
-            <input type="file" id="chooseFile">
+            <input type="file" id="chooseFile" name="file">
             <label for="chooseFile">Choose file to upload:</label>
     </fieldset>
     </div>
     <input type="submit" value="Get result">
 </form>
-<form:form modelAttribute="fileName" action="getFile" method="post">
+<form action="getFile" method="post">
     <div>
         <fieldset>
             <legend><h3>Choose file you want to download:</h3></legend>
             <c:forEach items="${files}" var="file">
-            <form:radiobutton path="fileName" id="${file}" value="${file}" name="file"/>
+            <input type="radio" id="${file}" value="${file}" name="fileName"/>
             <label for="${file}"><span></span>${file}</label>
             <p>
             </c:forEach>
         </fieldset>
     </div>
     <input type="submit" value="Get file">
-</form:form>
+</form>
 </body>
 </html>
