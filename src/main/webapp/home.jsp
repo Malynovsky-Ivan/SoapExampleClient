@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,7 +12,7 @@
     <title>SOAP</title>
 </head>
 <body>
-<form name="form" action="searchWord" onsubmit="return validateForm()" method="post" enctype="multipart/form-data">
+<form name="form" action="searchWord"  method="post" enctype="multipart/form-data">
     <div class="title" style="text-align: center;">
         <h2>Simple SOAP using</h2>
         <h3>Choose option:</h3>
@@ -26,27 +28,18 @@
     </div>
     <input type="submit" value="Get result">
 </form>
-<form name="form" action="getFile" method="post">
+<form:form modelAttribute="fileName" action="getFile" method="post">
     <div>
         <fieldset>
             <legend><h3>Choose file you want to download:</h3></legend>
-            <input type="radio" id="r1" name="rr"/>
-            <label for="r1"><span></span>File 1</label>
+            <c:forEach items="${files}" var="file">
+            <form:radiobutton path="fileName" id="${file}" value="${file}" name="file"/>
+            <label for="${file}"><span></span>${file}</label>
             <p>
-                <input type="radio" id="r2" name="rr"/>
-                <label for="r2"><span></span>File 2</label>
-            <p>
-                <input type="radio" id="r3" name="rr"/>
-                <label for="r3"><span></span>File 3</label>
-            <p>
-                <input type="radio" id="r4" name="rr"/>
-                <label for="r4"><span></span>File 4</label>
-            <p>
-                <input type="radio" id="r5" name="rr"/>
-                <label for="r5"><span></span>File 5</label>
+            </c:forEach>
         </fieldset>
     </div>
-    <input type="submit" value="Get result">
-</form>
+    <input type="submit" value="Get file">
+</form:form>
 </body>
 </html>
