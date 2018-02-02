@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @Controller
@@ -43,7 +44,7 @@ public class HomeController {
 
     @RequestMapping(value = "/searchWord", method = RequestMethod.POST)
     public String searchWord(@RequestParam("file") MultipartFile file, @RequestParam String searchWord) {
-        String filePath = fileService.saveFile(file);
+        File filePath = fileService.saveFile(file);
         documentsClient.storeDocument(searchWord, filePath);
         return "redirect:home";
     }
