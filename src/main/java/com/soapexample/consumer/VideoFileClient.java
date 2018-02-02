@@ -16,12 +16,13 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.List;
 
+import static com.soapexample.ProjectContants.PATH_TO_FILES;
 import static com.soapexample.ProjectContants.VIDEO_FILE_REQUEST_BODY;
 
 @Service
 public class VideoFileClient extends WebServiceGatewaySupport {
 
-    private final Logger LGR = LoggerFactory.getLogger(VideoFileClient.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(VideoFileClient.class);
 
     public VideoFileClient() {
         System.setProperty("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
@@ -31,16 +32,16 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     private Transformer transformer;
 
     public List<String> getExistFilesNames() {
-        LGR.info("Request to get list of files names");
+        LOGGER.info("Request to get list of files names");
         GetFileNamesRequest request = new GetFileNamesRequest();
         GetFileNamesResponse response = (GetFileNamesResponse) getWebServiceTemplate().marshalSendAndReceive(request);
-        LGR.info("Received list of files names: {}", response.getFileNamesList());
+        LOGGER.info("Received list of files names: {}", response.getFileNamesList());
         return response.getFileNamesList();
     }
 
 
     public void getVideoFile(String fileName) throws IOException {
-        LGR.info("Request to get file: {}", fileName);
+        LOGGER.info("Request to get file: {}", fileName);
 
         try {
 			Attachment attachment = getWebServiceTemplate().sendAndReceive(
@@ -59,16 +60,16 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 
 			InputStream inputStream = attachment.getDataHandler().getInputStream();
 			byte[] buffer = new byte[inputStream.available()];
-			LGR.info("{} bytes were read from received file.", inputStream.read(buffer));
+			LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
 
-			File targetFile = new File("src/main/resources/" + fileName);
+			File targetFile = new File(PATH_TO_FILES + fileName);
 			OutputStream outStream = new FileOutputStream(targetFile);
 			outStream.write(buffer);
 
 			inputStream.close();
 			outStream.close();
 		} catch (IOException e) {
-			LGR.warn(e.getMessage());
+			LOGGER.warn(e.getMessage());
 		}
     }
 }
