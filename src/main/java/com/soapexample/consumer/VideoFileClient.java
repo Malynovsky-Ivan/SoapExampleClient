@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.mime.Attachment;
 import org.springframework.ws.soap.SoapFault;
 import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.List;
@@ -46,8 +49,8 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 			Attachment attachment = getWebServiceTemplate().sendAndReceive(
 					webServiceMessage -> transformer
 							.transform(new StreamSource(new StringReader(String.format(VIDEO_FILE_REQUEST_BODY, fileName))),
-
-					webServiceMessage.getPayloadResult()), message -> {
+									webServiceMessage.getPayloadResult()),
+					message -> {
 						SoapMessage soapMessage = (SoapMessage) message;
 						SoapFault fault = soapMessage.getSoapBody().getFault();
 						if (fault != null) {

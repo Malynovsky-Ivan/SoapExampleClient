@@ -70,14 +70,6 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="storeDocumentRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="document" type="tns:document" />
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
     <xs:element name="storeDocumentResponse">
         <xs:complexType>
             <xs:sequence>
@@ -86,12 +78,14 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="document">
-        <xs:sequence>
-            <xs:element name="word" type="xs:string" />
-            <xs:element name="content" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream" />
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="storeDocumentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="word" type="xs:string" />
+                <xs:element name="content" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="getFileNamesResponse">
         <xs:complexType>
