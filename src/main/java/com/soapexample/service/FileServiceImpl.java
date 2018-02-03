@@ -17,13 +17,16 @@ public class FileServiceImpl implements FileService {
     public File saveFile(MultipartFile multipartFile) {
         String path = System.getProperty("catalina.home") + File.separator + multipartFile.getOriginalFilename();
         File file = new File(path);
+
         try {
-            //FileUtils.cleanDirectory(new File(System.getProperty("catalina.home") + "/resources/"));
+            // Can't uncomment it jet. Will get a FileNotFoudException
+            //FileUtils.cleanDirectory(new File(System.getProperty("catalina.home") + "/"));
             multipartFile.transferTo(file);
             LGR.info("File saved in: {}", path);
         } catch (IOException e) {
             LGR.error(e.getMessage());
         }
+
         return file;
     }
 }

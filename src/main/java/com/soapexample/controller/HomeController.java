@@ -22,11 +22,13 @@ public class HomeController {
     private final Logger LGR = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    VideoFileClient videoFileClient;
+    private VideoFileClient videoFileClient;
+
     @Autowired
-    DocumentsClient documentsClient;
+    private DocumentsClient documentsClient;
+
     @Autowired
-    FileService fileService;
+    private FileService fileService;
 
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
@@ -45,6 +47,7 @@ public class HomeController {
     @RequestMapping(value = "/searchWord", method = RequestMethod.POST)
     public String searchWord(@RequestParam("file") MultipartFile file, @RequestParam String searchWord) {
         File filePath = fileService.saveFile(file);
+        // to do: need to return int value to UI
         documentsClient.storeDocument(searchWord, filePath);
         return "redirect:home";
     }

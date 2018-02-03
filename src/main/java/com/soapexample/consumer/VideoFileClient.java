@@ -6,20 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.mime.Attachment;
 import org.springframework.ws.soap.SoapFault;
 import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.List;
 
-import static com.soapexample.ProjectContants.VIDEO_FILE_REQUEST_BODY;
+import static com.soapexample.ProjectContants.*;
 
 @Service
 public class VideoFileClient extends WebServiceGatewaySupport {
@@ -27,7 +24,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     private final Logger LGR = LoggerFactory.getLogger(VideoFileClient.class);
 
     public VideoFileClient() {
-        System.setProperty("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
+        System.setProperty(TRUST_STORE_KEY, TRUST_STORE_VALUE);
     }
 
     @Autowired
@@ -64,7 +61,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 			byte[] buffer = new byte[inputStream.available()];
 			LGR.info("{} bytes were read from received file.", inputStream.read(buffer));
 
-			File targetFile = new File("src/main/resources/" + fileName);
+			File targetFile = new File(RESOURCES_PATH + fileName);
 			OutputStream outStream = new FileOutputStream(targetFile);
 			outStream.write(buffer);
 
