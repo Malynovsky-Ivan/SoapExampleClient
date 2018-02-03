@@ -25,18 +25,19 @@ public class HomeController {
     private String fileName = DEFAULT_VIDEO_SCREEN;
 
     @Autowired
-    VideoFileClient videoFileClient;
-    @Autowired
-    DocumentsClient documentsClient;
-    @Autowired
-    FileService fileService;
+    private VideoFileClient videoFileClient;
 
+    @Autowired
+    private DocumentsClient documentsClient;
 
+    @Autowired
+    private FileService fileService;
 
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
         model.addAttribute("files", videoFileClient.getExistFilesNames());
         model.addAttribute("fileName", fileName);
+
         return "home";
     }
 
@@ -51,7 +52,9 @@ public class HomeController {
     @RequestMapping(value = "/searchWord", method = RequestMethod.POST)
     public String searchWord(@RequestParam("file") MultipartFile file, @RequestParam String searchWord) {
         File filePath = fileService.saveFile(file);
+        // to do: need to return int value to UI
         documentsClient.storeDocument(searchWord, filePath);
+
         return "redirect:home";
     }
 }

@@ -18,8 +18,13 @@ import javax.xml.soap.SOAPException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 
+import static com.soapexample.ProjectContants.DEFAULT_URI;
+import static com.soapexample.ProjectContants.XSD_SCHEMA;
+
 /**
  * Created by Ivan on 28.01.2018.
+ *
+ * Config class. Here we can find declaration of our beans
  */
 @Configuration
 public class Config {
@@ -39,7 +44,7 @@ public class Config {
     public FirstEndpointClient firstEndpointClient(Jaxb2Marshaller marshaller) {
         FirstEndpointClient client = new FirstEndpointClient();
 
-        client.setDefaultUri("https://localhost:8080/ws");
+        client.setDefaultUri(DEFAULT_URI);
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
 
@@ -49,7 +54,7 @@ public class Config {
     @Bean
     public DocumentsClient documentsClient(Jaxb2Marshaller marshaller) {
         DocumentsClient documentsClient = new DocumentsClient();
-        documentsClient.setDefaultUri("https://localhost:8080/ws");
+        documentsClient.setDefaultUri(DEFAULT_URI);
         documentsClient.setMarshaller(marshaller);
         documentsClient.setUnmarshaller(marshaller);
 
@@ -59,7 +64,7 @@ public class Config {
     @Bean
     public VideoFileClient videoFileClient(Jaxb2Marshaller marshaller) {
         VideoFileClient videoFileClient = new VideoFileClient();
-        videoFileClient.setDefaultUri("https://localhost:8080/ws");
+        videoFileClient.setDefaultUri(DEFAULT_URI);
         videoFileClient.setMarshaller(marshaller);
         videoFileClient.setUnmarshaller(marshaller);
 
@@ -93,7 +98,7 @@ public class Config {
 
     @Bean
     public XsdSchema objectsSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("example.xsd"));
+        return new SimpleXsdSchema(new ClassPathResource(XSD_SCHEMA));
     }
 
 }

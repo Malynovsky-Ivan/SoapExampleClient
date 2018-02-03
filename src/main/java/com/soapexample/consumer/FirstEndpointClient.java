@@ -7,8 +7,14 @@ import org.springframework.ws.soap.client.core.SoapActionCallback;
 import java.io.*;
 import java.math.BigInteger;
 
+import static com.soapexample.ProjectContants.DEFAULT_URI;
+import static com.soapexample.ProjectContants.TRUST_STORE_KEY;
+import static com.soapexample.ProjectContants.TRUST_STORE_VALUE;
+
 /**
  * Created by Ivan on 28.01.2018.
+ *
+ * Legacy code. Probably will be removed as soon as possible.
  */
 public class FirstEndpointClient extends WebServiceGatewaySupport {
     public void doStuff() {
@@ -22,11 +28,11 @@ public class FirstEndpointClient extends WebServiceGatewaySupport {
             e.printStackTrace();
         }
 
-        System.setProperty ("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
+        System.setProperty (TRUST_STORE_KEY, TRUST_STORE_VALUE);
 
         GetObjectResponse response = (GetObjectResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("https://localhost:8080/ws", request,
-                        new SoapActionCallback("https://localhost:8080/ws"));
+                .marshalSendAndReceive(DEFAULT_URI, request,
+                        new SoapActionCallback(DEFAULT_URI));
         System.out.println(response.getObject().getRandomString() + " - " + response.getObject().getRandomInt());
         System.out.println("------------------------------------------------------------------");
 
@@ -43,16 +49,16 @@ public class FirstEndpointClient extends WebServiceGatewaySupport {
         }
 
         GetRandomIntResponse intResponse = (GetRandomIntResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("https://localhost:8080/ws", intRequest,
-                        new SoapActionCallback("https://localhost:8080/ws"));
+                .marshalSendAndReceive(DEFAULT_URI, intRequest,
+                        new SoapActionCallback(DEFAULT_URI));
         System.out.println("We have got next number: " + intResponse.getRandomInt());
         System.out.println("------------------------------------------------------------------");
         DownloadMessageRequest downloadMessageRequest = new DownloadMessageRequest();
         downloadMessageRequest.setRandomInt(new BigInteger("1"));
 
         DownloadMessageResponse response3 = (DownloadMessageResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("https://localhost:8080/ws", downloadMessageRequest,
-                        new SoapActionCallback("https://localhost:8080/ws"));
+                .marshalSendAndReceive(DEFAULT_URI, downloadMessageRequest,
+                        new SoapActionCallback(DEFAULT_URI));
 
         BufferedReader reader = null;
         BufferedWriter writer = null;
