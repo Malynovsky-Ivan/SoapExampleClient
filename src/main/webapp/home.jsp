@@ -40,6 +40,7 @@
         </fieldset>
     </div>
     <input type="submit" value="Get file">
+    <EMBED SRC="./files/${fileName}" loop="1" height="280" width="450" autostart="true">
 </form>
 </body>
 </html>

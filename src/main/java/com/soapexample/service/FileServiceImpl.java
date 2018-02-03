@@ -1,6 +1,5 @@
 package com.soapexample.service;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ import java.io.IOException;
 
 @Service
 public class FileServiceImpl implements FileService {
-    private final Logger LGR = LoggerFactory.getLogger(FileServiceImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
     public File saveFile(MultipartFile multipartFile) {
@@ -20,9 +19,9 @@ public class FileServiceImpl implements FileService {
         try {
             //FileUtils.cleanDirectory(new File(System.getProperty("catalina.home") + "/resources/"));
             multipartFile.transferTo(file);
-            LGR.info("File saved in: {}", path);
+            LOGGER.info("File saved in: {}", path);
         } catch (IOException e) {
-            LGR.error(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
         return file;
     }

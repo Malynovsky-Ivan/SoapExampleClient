@@ -6,4 +6,6 @@ package com.soapexample;
 public interface ProjectContants {
 	String VIDEO_FILE_REQUEST_BODY = "<gs:getFileRequest xmlns:gs=\"http://generated.soapexample.com\">\n" +
 			"<gs:fileName>%s</gs:fileName></gs:getFileRequest>\n";
+	String PATH_TO_FILES = "src/main/webapp/files/";
+	String DEFAULT_VIDEO_SCREEN = "videoscreen.png";
 }
