@@ -16,8 +16,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.List;
 
-import static com.soapexample.ProjectContants.PATH_TO_FILES;
-import static com.soapexample.ProjectContants.VIDEO_FILE_REQUEST_BODY;
+import static com.soapexample.ProjectContants.*;
 
 @Service
 public class VideoFileClient extends WebServiceGatewaySupport {
@@ -25,7 +24,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     private final Logger LOGGER = LoggerFactory.getLogger(VideoFileClient.class);
 
     public VideoFileClient() {
-        System.setProperty("javax.net.ssl.trustStore", "src/main/resources/trust-store.jks");
+        System.setProperty(TRUST_STORE_KEY, TRUST_STORE_VALUE);
     }
 
     @Autowired
@@ -47,8 +46,8 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 			Attachment attachment = getWebServiceTemplate().sendAndReceive(
 					webServiceMessage -> transformer
 							.transform(new StreamSource(new StringReader(String.format(VIDEO_FILE_REQUEST_BODY, fileName))),
-
-					webServiceMessage.getPayloadResult()), message -> {
+									webServiceMessage.getPayloadResult()),
+					message -> {
 						SoapMessage soapMessage = (SoapMessage) message;
 						SoapFault fault = soapMessage.getSoapBody().getFault();
 						if (fault != null) {
@@ -62,7 +61,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 			byte[] buffer = new byte[inputStream.available()];
 			LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
 
-			File targetFile = new File(PATH_TO_FILES + fileName);
+			File targetFile = new File(RESOURCES_PATH + fileName);
 			OutputStream outStream = new FileOutputStream(targetFile);
 			outStream.write(buffer);
 
