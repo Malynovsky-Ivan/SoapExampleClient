@@ -16,10 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 
+import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
+
 @Controller
 public class HomeController {
 
-    private final Logger LGR = LoggerFactory.getLogger(HomeController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+    private String fileName = DEFAULT_VIDEO_SCREEN;
 
     @Autowired
     private VideoFileClient videoFileClient;
@@ -33,14 +36,16 @@ public class HomeController {
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
         model.addAttribute("files", videoFileClient.getExistFilesNames());
+        model.addAttribute("fileName", fileName);
+
         return "home";
     }
 
     @RequestMapping(value = "/getFile", method = RequestMethod.POST)
     public String getFile(@RequestParam String fileName) throws IOException {
-        LGR.info("Request to get file: {}", fileName);
-        System.out.println(fileName);
+        LOGGER.debug("Request to get file: {}", fileName);
         videoFileClient.getVideoFile(fileName);
+        this.fileName = fileName;
         return "redirect:home";
     }
 
@@ -49,6 +54,7 @@ public class HomeController {
         File filePath = fileService.saveFile(file);
         // to do: need to return int value to UI
         documentsClient.storeDocument(searchWord, filePath);
+
         return "redirect:home";
     }
 }

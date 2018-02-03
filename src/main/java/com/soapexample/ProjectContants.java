@@ -15,4 +15,6 @@ public interface ProjectContants {
 	String RESOURCES_PATH = "src/main/resources/";
 
 	String XSD_SCHEMA = "example.xsd";
+	String PATH_TO_FILES = "src/main/webapp/files/";
+	String DEFAULT_VIDEO_SCREEN = "videoscreen.png";
 }
