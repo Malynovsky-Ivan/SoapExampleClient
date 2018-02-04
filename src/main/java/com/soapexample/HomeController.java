@@ -12,13 +12,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.soapexample.ProjectContants.DEFAULT_COUNT_RESULT;
 import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
 
+/**
+ * Main controller. Processes all requests.  Each method returns home.jsp view.
+ *
+ * @author Igor Faryna
+ */
 @Controller
 public class HomeController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
     private String fileName = DEFAULT_VIDEO_SCREEN;
+    private int countMatches = DEFAULT_COUNT_RESULT;
 
     @Autowired
     private VideoFileClient videoFileClient;
@@ -26,14 +33,21 @@ public class HomeController {
     @Autowired
     private DocumentsClient documentsClient;
 
+    /**
+     *
+     */
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
-
         model.addAttribute("files", videoFileClient.getExistFilesNames(false));
         model.addAttribute("fileName", fileName);
+        model.addAttribute("countMatches", countMatches);
         return "home";
     }
 
+    /**
+     * @param fileName
+     * @return
+     */
     @RequestMapping(value = "/getFile", method = RequestMethod.POST)
     public String getFile(@RequestParam String fileName) {
         LOGGER.debug("Request to get file: {}", fileName);
@@ -44,7 +58,7 @@ public class HomeController {
 
     @RequestMapping(value = "/searchWord", method = RequestMethod.POST)
     public String searchWord(@RequestParam("file") MultipartFile file, @RequestParam String searchWord) {
-        documentsClient.storeDocument(searchWord, file);
+        this.countMatches = documentsClient.storeDocument(searchWord, file);
         return "redirect:home";
     }
 }

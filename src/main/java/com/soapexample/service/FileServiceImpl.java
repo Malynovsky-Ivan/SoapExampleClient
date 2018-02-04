@@ -10,11 +10,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * The implementation of {@link FileService}
+ *
+ * @author Igor Faryna
+ */
 @Service
 public class FileServiceImpl implements FileService {
     private final Logger LOGGER = LoggerFactory.getLogger(FileServiceImpl.class);
 
-    @Deprecated
+    /**
+     * @see FileService#saveFile(MultipartFile)
+     */
     @Override
     public File saveFile(MultipartFile multipartFile) {
         String path = System.getProperty("catalina.home") + File.separator + multipartFile.getOriginalFilename();
@@ -32,6 +39,14 @@ public class FileServiceImpl implements FileService {
         return file;
     }
 
+    /**
+     * Converts selected file of type MultipartFile into type File
+     *
+     * @see FileService#multipartFileToFile(MultipartFile)
+     *
+     * @param multipartFile MultipartFile value representing the selected file
+     * @return File which we get after the conversion
+     */
     @Override
     public File multipartFileToFile(MultipartFile multipartFile) {
         File file = new File(multipartFile.getOriginalFilename());

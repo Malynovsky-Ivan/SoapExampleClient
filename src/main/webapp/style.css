@@ -3,7 +3,6 @@
 body {
     font-family: 'Josefin Sans', sans-serif;
     padding: 16px;
-    height: 100vh;
     background-color: #222;
     background: rgba(50, 168, 118, 1);
     background: -moz-linear-gradient(-45deg, rgba(50, 168, 118, 1) 0%, rgba(50, 129, 172, 1) 100%);
@@ -69,7 +68,6 @@ textarea {
 }
 
 input[type="submit"] {
-    float: right;
     appearance: none;
     opacity: .99;
     height: 35px;
@@ -151,4 +149,10 @@ input[type="radio"] + label span {
 
 input[type="radio"]:checked + label span {
     background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -57px top no-repeat;
+}
+#countButton{
+    margin-left: 200px;
+}
+#videoFileButton{
+    float: right;
 }
