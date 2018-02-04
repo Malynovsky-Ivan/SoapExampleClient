@@ -1,14 +1,12 @@
 package com.soapexample;
 
-import com.soapexample.consumer.DocumentsClient;
-import com.soapexample.consumer.FirstEndpointClient;
-import com.soapexample.consumer.VideoFileClient;
+import com.soapexample.client.DocumentsClient;
+import com.soapexample.client.FirstEndpointClient;
+import com.soapexample.client.VideoFileClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.transform.TransformerHelper;
 import org.springframework.xml.xsd.SimpleXsdSchema;
@@ -23,7 +21,7 @@ import static com.soapexample.ProjectContants.XSD_SCHEMA;
 
 /**
  * Created by Ivan on 28.01.2018.
- *
+ * <p>
  * Config class. Here we can find declaration of our beans
  */
 @Configuration
@@ -32,10 +30,7 @@ public class Config {
     @Bean
     public Jaxb2Marshaller marshaller(XsdSchema objectsSchema) {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        // this package must match the package in the <generatePackage> specified in
-        // pom.xml
         marshaller.setPackagesToScan("com.soapexample.generated");
-        //marshaller.setSchema(new ClassPathResource("example.xsd"));
         marshaller.setMtomEnabled(true);
         return marshaller;
     }
@@ -43,11 +38,9 @@ public class Config {
     @Bean
     public FirstEndpointClient firstEndpointClient(Jaxb2Marshaller marshaller) {
         FirstEndpointClient client = new FirstEndpointClient();
-
         client.setDefaultUri(DEFAULT_URI);
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
-
         return client;
     }
 
@@ -57,7 +50,6 @@ public class Config {
         documentsClient.setDefaultUri(DEFAULT_URI);
         documentsClient.setMarshaller(marshaller);
         documentsClient.setUnmarshaller(marshaller);
-
         return documentsClient;
     }
 
@@ -67,7 +59,6 @@ public class Config {
         videoFileClient.setDefaultUri(DEFAULT_URI);
         videoFileClient.setMarshaller(marshaller);
         videoFileClient.setUnmarshaller(marshaller);
-
         return videoFileClient;
     }
 
@@ -79,22 +70,20 @@ public class Config {
         } catch (SOAPException e) {
             e.printStackTrace();
         }
-
         return factory;
     }
 
     @Bean
-	public Transformer transformer() {
-		TransformerHelper transformerHelper = new TransformerHelper();
-		Transformer transformer = null;
-		try {
-			transformer = transformerHelper.createTransformer();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		}
-
-		return transformer;
-	}
+    public Transformer transformer() {
+        TransformerHelper transformerHelper = new TransformerHelper();
+        Transformer transformer = null;
+        try {
+            transformer = transformerHelper.createTransformer();
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        }
+        return transformer;
+    }
 
     @Bean
     public XsdSchema objectsSchema() {
