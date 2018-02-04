@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
 
@@ -33,9 +35,15 @@ public class HomeController {
     @Autowired
     private FileService fileService;
 
+    private List<String> fileNames = new ArrayList<>();
+
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
-        model.addAttribute("files", videoFileClient.getExistFilesNames());
+        if (fileNames.isEmpty()) {
+            fileNames = videoFileClient.getExistFilesNames();
+        }
+
+        model.addAttribute("files", fileNames);
         model.addAttribute("fileName", fileName);
 
         return "home";

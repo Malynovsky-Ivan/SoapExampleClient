@@ -16,6 +16,7 @@ import static com.soapexample.ProjectContants.TRUST_STORE_VALUE;
  *
  * Legacy code. Probably will be removed as soon as possible.
  */
+@Deprecated
 public class FirstEndpointClient extends WebServiceGatewaySupport {
     public void doStuff() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

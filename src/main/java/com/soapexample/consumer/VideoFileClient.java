@@ -54,7 +54,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 							throw new IOException(fault.getFaultStringOrReason());
 						}
 
-						return ((SoapMessage) message).getAttachment("file");
+						return soapMessage.getAttachment("file");
 					});
 
 			InputStream inputStream = attachment.getDataHandler().getInputStream();
