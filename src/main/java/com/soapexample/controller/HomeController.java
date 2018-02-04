@@ -35,15 +35,10 @@ public class HomeController {
     @Autowired
     private FileService fileService;
 
-    private List<String> fileNames = new ArrayList<>();
-
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
-        if (fileNames.isEmpty()) {
-            fileNames = videoFileClient.getExistFilesNames();
-        }
 
-        model.addAttribute("files", fileNames);
+        model.addAttribute("files", videoFileClient.getExistFilesNames(false));
         model.addAttribute("fileName", fileName);
 
         return "home";

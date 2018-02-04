@@ -14,6 +14,7 @@ import org.springframework.ws.soap.SoapMessage;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.soapexample.ProjectContants.*;
@@ -30,12 +31,19 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     @Autowired
     private Transformer transformer;
 
-    public List<String> getExistFilesNames() {
+	private List<String> fileNames;
+
+    public List<String> getExistFilesNames(boolean forceRequest) {
+    	if (fileNames != null && !fileNames.isEmpty() && !forceRequest) {
+    		return fileNames;
+		}
         LOGGER.info("Request to get list of files names");
         GetFileNamesRequest request = new GetFileNamesRequest();
         GetFileNamesResponse response = (GetFileNamesResponse) getWebServiceTemplate().marshalSendAndReceive(request);
-        LOGGER.info("Received list of files names: {}", response.getFileNamesList());
-        return response.getFileNamesList();
+
+        fileNames = response.getFileNamesList();
+        LOGGER.info("Received list of files names: {}", fileNames);
+        return fileNames;
     }
 
 
