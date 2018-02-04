@@ -1,4 +1,4 @@
-package com.soapexample.client;
+package com.soapexample.consumer;
 
 import com.soapexample.generated.GetFileNamesRequest;
 import com.soapexample.generated.GetFileNamesResponse;
@@ -30,46 +30,53 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     @Autowired
     private Transformer transformer;
 
-    public List<String> getExistFilesNames() {
+	private List<String> fileNames;
+
+    public List<String> getExistFilesNames(boolean forceRequest) {
+    	if (fileNames != null && !fileNames.isEmpty() && !forceRequest) {
+    		return fileNames;
+		}
         LOGGER.info("Request to get list of files names");
         GetFileNamesRequest request = new GetFileNamesRequest();
         GetFileNamesResponse response = (GetFileNamesResponse) getWebServiceTemplate().marshalSendAndReceive(request);
-        LOGGER.info("Received list of files names: {}", response.getFileNamesList());
-        return response.getFileNamesList();
+
+        fileNames = response.getFileNamesList();
+        LOGGER.info("Received list of files names: {}", fileNames);
+        return fileNames;
     }
 
 
-    public void getVideoFile(String fileName) {
+    public void getVideoFile(String fileName) throws IOException {
         LOGGER.info("Request to get file: {}", fileName);
 
         try {
-            Attachment attachment = getWebServiceTemplate().sendAndReceive(
-                    webServiceMessage -> transformer
-                            .transform(new StreamSource(new StringReader(String.format(VIDEO_FILE_REQUEST_BODY, fileName))),
-                                    webServiceMessage.getPayloadResult()),
-                    message -> {
-                        SoapMessage soapMessage = (SoapMessage) message;
-                        SoapFault fault = soapMessage.getSoapBody().getFault();
-                        if (fault != null) {
-                            throw new IOException(fault.getFaultStringOrReason());
-                        }
+			Attachment attachment = getWebServiceTemplate().sendAndReceive(
+					webServiceMessage -> transformer
+							.transform(new StreamSource(new StringReader(String.format(VIDEO_FILE_REQUEST_BODY, fileName))),
+									webServiceMessage.getPayloadResult()),
+					message -> {
+						SoapMessage soapMessage = (SoapMessage) message;
+						SoapFault fault = soapMessage.getSoapBody().getFault();
+						if (fault != null) {
+							throw new IOException(fault.getFaultStringOrReason());
+						}
 
-                        return ((SoapMessage) message).getAttachment("file");
-                    });
+						return soapMessage.getAttachment("file");
+					});
 
-            InputStream inputStream = attachment.getDataHandler().getInputStream();
-            byte[] buffer = new byte[inputStream.available()];
-            LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
+			InputStream inputStream = attachment.getDataHandler().getInputStream();
+			byte[] buffer = new byte[inputStream.available()];
+			LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
 
-            File targetFile = new File(RESOURCES_PATH + fileName);
-            OutputStream outStream = new FileOutputStream(targetFile);
-            outStream.write(buffer);
+			File targetFile = new File(RESOURCES_PATH + fileName);
+			OutputStream outStream = new FileOutputStream(targetFile);
+			outStream.write(buffer);
 
-            inputStream.close();
-            outStream.close();
-        } catch (IOException e) {
-            LOGGER.warn(e.getMessage());
-        }
+			inputStream.close();
+			outStream.close();
+		} catch (IOException e) {
+			LOGGER.warn(e.getMessage());
+		}
     }
 }
 

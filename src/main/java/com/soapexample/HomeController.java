@@ -28,7 +28,8 @@ public class HomeController {
 
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
-        model.addAttribute("files", videoFileClient.getExistFilesNames());
+
+        model.addAttribute("files", videoFileClient.getExistFilesNames(false));
         model.addAttribute("fileName", fileName);
         return "home";
     }
