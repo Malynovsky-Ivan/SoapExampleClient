@@ -14,6 +14,7 @@ import java.io.IOException;
 public class FileServiceImpl implements FileService {
     private final Logger LOGGER = LoggerFactory.getLogger(FileServiceImpl.class);
 
+    @Deprecated
     @Override
     public File saveFile(MultipartFile multipartFile) {
         String path = System.getProperty("catalina.home") + File.separator + multipartFile.getOriginalFilename();

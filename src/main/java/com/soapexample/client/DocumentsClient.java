@@ -2,7 +2,7 @@ package com.soapexample.client;
 
 import com.soapexample.generated.StoreDocumentRequest;
 import com.soapexample.generated.StoreDocumentResponse;
-import com.soapexample.service.FileServiceImpl;
+import com.soapexample.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class DocumentsClient extends WebServiceGatewaySupport {
     private final Logger LOGGER = LoggerFactory.getLogger(DocumentsClient.class);
 
     @Autowired
-    FileServiceImpl fileService;
+    FileService fileService;
 
     public DocumentsClient() {
         System.setProperty(TRUST_STORE_KEY, TRUST_STORE_VALUE);
@@ -36,7 +36,6 @@ public class DocumentsClient extends WebServiceGatewaySupport {
         request.setWord(searchWord);
         StoreDocumentResponse response = (StoreDocumentResponse) getWebServiceTemplate()
                 .marshalSendAndReceive(request);
-        System.out.println(response.getCount());
         return response.getCount().intValue();
     }
 
