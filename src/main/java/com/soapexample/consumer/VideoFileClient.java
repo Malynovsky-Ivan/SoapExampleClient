@@ -14,7 +14,6 @@ import org.springframework.ws.soap.SoapMessage;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.soapexample.ProjectContants.*;
