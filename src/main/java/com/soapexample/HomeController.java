@@ -33,9 +33,6 @@ public class HomeController {
     @Autowired
     private DocumentsClient documentsClient;
 
-    /**
-     *
-     */
     @RequestMapping(value = {"/", "/home"})
     public String home(Model model) {
         model.addAttribute("files", videoFileClient.getExistFilesNames(false));
@@ -44,10 +41,6 @@ public class HomeController {
         return "home";
     }
 
-    /**
-     * @param fileName
-     * @return
-     */
     @RequestMapping(value = "/getFile", method = RequestMethod.POST)
     public String getFile(@RequestParam String fileName) {
         LOGGER.debug("Request to get file: {}", fileName);

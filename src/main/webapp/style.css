@@ -155,4 +155,5 @@ input[type="radio"]:checked + label span {
 }
 #videoFileButton{
     float: right;
+    margin-right: 6%;
 }
