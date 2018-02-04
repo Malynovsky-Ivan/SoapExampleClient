@@ -1,4 +1,4 @@
-package com.soapexample.consumer;
+package com.soapexample.client;
 
 import com.soapexample.generated.GetFileNamesRequest;
 import com.soapexample.generated.GetFileNamesResponse;
@@ -39,37 +39,37 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     }
 
 
-    public void getVideoFile(String fileName) throws IOException {
+    public void getVideoFile(String fileName) {
         LOGGER.info("Request to get file: {}", fileName);
 
         try {
-			Attachment attachment = getWebServiceTemplate().sendAndReceive(
-					webServiceMessage -> transformer
-							.transform(new StreamSource(new StringReader(String.format(VIDEO_FILE_REQUEST_BODY, fileName))),
-									webServiceMessage.getPayloadResult()),
-					message -> {
-						SoapMessage soapMessage = (SoapMessage) message;
-						SoapFault fault = soapMessage.getSoapBody().getFault();
-						if (fault != null) {
-							throw new IOException(fault.getFaultStringOrReason());
-						}
+            Attachment attachment = getWebServiceTemplate().sendAndReceive(
+                    webServiceMessage -> transformer
+                            .transform(new StreamSource(new StringReader(String.format(VIDEO_FILE_REQUEST_BODY, fileName))),
+                                    webServiceMessage.getPayloadResult()),
+                    message -> {
+                        SoapMessage soapMessage = (SoapMessage) message;
+                        SoapFault fault = soapMessage.getSoapBody().getFault();
+                        if (fault != null) {
+                            throw new IOException(fault.getFaultStringOrReason());
+                        }
 
-						return ((SoapMessage) message).getAttachment("file");
-					});
+                        return ((SoapMessage) message).getAttachment("file");
+                    });
 
-			InputStream inputStream = attachment.getDataHandler().getInputStream();
-			byte[] buffer = new byte[inputStream.available()];
-			LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
+            InputStream inputStream = attachment.getDataHandler().getInputStream();
+            byte[] buffer = new byte[inputStream.available()];
+            LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
 
-			File targetFile = new File(RESOURCES_PATH + fileName);
-			OutputStream outStream = new FileOutputStream(targetFile);
-			outStream.write(buffer);
+            File targetFile = new File(RESOURCES_PATH + fileName);
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
 
-			inputStream.close();
-			outStream.close();
-		} catch (IOException e) {
-			LOGGER.warn(e.getMessage());
-		}
+            inputStream.close();
+            outStream.close();
+        } catch (IOException e) {
+            LOGGER.warn(e.getMessage());
+        }
     }
 }
 

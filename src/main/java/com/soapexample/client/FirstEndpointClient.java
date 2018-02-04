@@ -1,4 +1,4 @@
-package com.soapexample.consumer;
+package com.soapexample.client;
 
 import com.soapexample.generated.*;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;

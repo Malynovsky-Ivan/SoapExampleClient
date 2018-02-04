@@ -7,4 +7,6 @@ import java.io.File;
 public interface FileService {
 
     File saveFile(MultipartFile multipartFile);
+
+    File multipartFileToFile (MultipartFile multipartFile);
 }
