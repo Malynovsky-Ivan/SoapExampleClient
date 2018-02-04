@@ -15,7 +15,7 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#32a876', endColorstr='#3281ac', GradientType=1);
 }
 
-input, textarea, button .thrid {
+input, textarea, button .thrid, a {
     margin: 10px;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 1.25em;
@@ -81,6 +81,17 @@ input[type="submit"] {
     color: #eee;
     cursor: pointer;
     text-shadow: 0px -1px 0px rgba(0, 0, 0, .5);
+}
+
+.div-class {
+    width: 450px;
+    margin: 0 auto;
+    background-color: rgb(146, 187, 252);
+    background-color: rgba(255, 255, 255, .15);
+    overflow: hidden;
+    padding: 16px;
+    border: 3px solid rgb(146, 187, 252);
+    border: 3px solid rgba(255, 255, 255, .5);
 }
 
 input[type="submit"]:hover {
