@@ -1,4 +1,4 @@
-package com.soapexample.consumer;
+package com.soapexample.client;
 
 import com.soapexample.generated.GetFileNamesRequest;
 import com.soapexample.generated.GetFileNamesResponse;
@@ -18,21 +18,32 @@ import java.util.List;
 
 import static com.soapexample.ProjectContants.*;
 
+/**
+ * Responsible for sending requests to the server to receive list of available files
+ * and selected video file
+ *
+ * @author Igor Faryna
+ */
 @Service
 public class VideoFileClient extends WebServiceGatewaySupport {
 
     private final Logger LOGGER = LoggerFactory.getLogger(VideoFileClient.class);
+	private List<String> fileNames;
+
+	@Autowired
+	private Transformer transformer;
 
     public VideoFileClient() {
         System.setProperty(TRUST_STORE_KEY, TRUST_STORE_VALUE);
     }
 
-    @Autowired
-    private Transformer transformer;
-
-	private List<String> fileNames;
-
-    public List<String> getExistFilesNames(boolean forceRequest) {
+	/**
+	 *Sends a request to the server to get a list of available files names
+	 *
+	 * @param forceRequest boolean value representing
+	 * @return list of file names that are available on the server
+	 */
+	public List<String> getExistFilesNames(boolean forceRequest) {
     	if (fileNames != null && !fileNames.isEmpty() && !forceRequest) {
     		return fileNames;
 		}
@@ -46,7 +57,13 @@ public class VideoFileClient extends WebServiceGatewaySupport {
     }
 
 
-    public void getVideoFile(String fileName) throws IOException {
+	/**
+	 * Sends to the server name of the file user wants to receive.
+	 * And saves the received file in {@link com.soapexample.ProjectContants#RESOURCES_PATH}
+	 *
+	 * @param fileName String value representing the name of file that user want to receive
+	 */
+	public void getVideoFile(String fileName) {
         LOGGER.info("Request to get file: {}", fileName);
 
         try {

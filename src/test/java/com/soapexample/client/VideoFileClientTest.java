@@ -60,7 +60,7 @@ public class VideoFileClientTest {
         SourceBuilder<GetFileNamesResponse> responseSourceBuilder = new SourceBuilder<>(marshaller);
         mockServer.expect(payload(requestSourceBuilder.buildSource(request)))
                 .andRespond(withPayload(responseSourceBuilder.buildSource(response)));
-        int listSize = client.getExistFilesNames().size();
+        int listSize = client.getExistFilesNames(true).size();
         assertEquals(3, listSize);
         mockServer.verify();
     }

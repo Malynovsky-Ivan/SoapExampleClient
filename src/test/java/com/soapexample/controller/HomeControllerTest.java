@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static com.soapexample.ProjectContants.DEFAULT_COUNT_RESULT;
 import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
@@ -42,6 +43,7 @@ public class HomeControllerTest {
         mockMvc.perform(get("/", "/home"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("fileName", equalTo(DEFAULT_VIDEO_SCREEN)))
+                .andExpect(model().attribute("countMatches", equalTo(DEFAULT_COUNT_RESULT)))
                 .andExpect(model().attributeExists("files"))
                 .andExpect(view().name("home"));
     }
