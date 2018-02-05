@@ -42,18 +42,19 @@ public class FileServiceImpl implements FileService {
     /**
      * Converts selected file of type MultipartFile into type File
      *
-     * @see FileService#multipartFileToFile(MultipartFile)
-     *
      * @param multipartFile MultipartFile value representing the selected file
      * @return File which we get after the conversion
+     * @see FileService#multipartFileToFile(MultipartFile)
      */
     @Override
     public File multipartFileToFile(MultipartFile multipartFile) {
-        File file = new File(multipartFile.getOriginalFilename());
-        try (FileOutputStream fos = new FileOutputStream(file)){
-            file.createNewFile();
+        File file = null;
+        try {
+            file = File.createTempFile("temp", null);
+            FileOutputStream fos = new FileOutputStream(file);
             fos.write(multipartFile.getBytes());
-        }catch(IOException e) {
+            fos.close();
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
         return file;

@@ -9,13 +9,9 @@ public interface ProjectContants {
 
 	String TRUST_STORE_KEY = "javax.net.ssl.trustStore";
 	String TRUST_STORE_VALUE = "src/main/resources/trust-store.jks";
-
 	String DEFAULT_URI = "https://localhost:8080/ws";
-
 	String RESOURCES_PATH = "src/main/resources/";
-
 	String XSD_SCHEMA = "example.xsd";
 	String PATH_TO_FILES = "src/main/webapp/files/";
-	String DEFAULT_VIDEO_SCREEN = "videoscreen.png";
 	int DEFAULT_COUNT_RESULT = 0;
 }
