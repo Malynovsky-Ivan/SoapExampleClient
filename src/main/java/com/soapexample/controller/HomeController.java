@@ -1,4 +1,4 @@
-package com.soapexample;
+package com.soapexample.controller;
 
 import com.soapexample.client.DocumentsClient;
 import com.soapexample.client.VideoFileClient;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.soapexample.ProjectContants.DEFAULT_COUNT_RESULT;
-import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
 
 /**
  * Main controller. Processes all requests.  Each method returns home.jsp view.
@@ -24,7 +23,7 @@ import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
 public class HomeController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-    private String fileName = DEFAULT_VIDEO_SCREEN;
+    private String fileName = "";
     private int countMatches = DEFAULT_COUNT_RESULT;
 
     @Autowired

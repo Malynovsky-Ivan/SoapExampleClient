@@ -85,7 +85,7 @@ public class VideoFileClient extends WebServiceGatewaySupport {
 			byte[] buffer = new byte[inputStream.available()];
 			LOGGER.info("{} bytes were read from received file.", inputStream.read(buffer));
 
-			File targetFile = new File(RESOURCES_PATH + fileName);
+			File targetFile = new File(PATH_TO_FILES + fileName);
 			OutputStream outStream = new FileOutputStream(targetFile);
 			outStream.write(buffer);
 

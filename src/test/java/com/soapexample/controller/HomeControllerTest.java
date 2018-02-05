@@ -15,12 +15,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static com.soapexample.ProjectContants.DEFAULT_COUNT_RESULT;
-import static com.soapexample.ProjectContants.DEFAULT_VIDEO_SCREEN;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -42,7 +38,6 @@ public class HomeControllerTest {
     public void homeTest() throws Exception {
         mockMvc.perform(get("/", "/home"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("fileName", equalTo(DEFAULT_VIDEO_SCREEN)))
                 .andExpect(model().attribute("countMatches", equalTo(DEFAULT_COUNT_RESULT)))
                 .andExpect(model().attributeExists("files"))
                 .andExpect(view().name("home"));

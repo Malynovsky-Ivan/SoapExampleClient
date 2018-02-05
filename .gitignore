@@ -5,3 +5,4 @@ target/*
 src/main/java/com/soapexample/generated/*
 *.log
 *.iml
+src/main/webapp/files/*
